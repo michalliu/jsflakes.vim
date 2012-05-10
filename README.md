@@ -38,16 +38,16 @@ Jsflakes aslo provide commands to run javascript directly inside VIM
 
 1. RunJS
 
-    :RunJS   run javascript code
+        :RunJS   run javascript code
     
 2. RunJSBlock
 
-    :RunJS 1,2  run javascript code from line 1 to line 2
+        :RunJS 1,2  run javascript code from line 1 to line 2
 
 3. RunHtml
 
-    :RunHtml   run html code
+        :RunHtml   run html code
     
 4. RunHtmlBlock
 
-    :RunHtmlBlock 1,2  run html code from line 1 to line 2
+        :RunHtmlBlock 1,2  run html code from line 1 to line 2
