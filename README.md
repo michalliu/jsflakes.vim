@@ -1,7 +1,7 @@
 jsflakes.vim
 ============
 
-A powerful vim plugin lint javascript code on the fly
+A powerful vim plugin lint javascript code on the fly. [view video](http://michalliu.github.com/jsflakes.vim)
 
 Install
 ============
