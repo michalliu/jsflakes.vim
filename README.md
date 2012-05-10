@@ -10,7 +10,7 @@ Install
 
 2. You need install [jsoncodecs](https://github.com/michalliu/jsoncodecs.vim) first
 
-3. Copy things ftplugin to your __vimfiles__ directory
+3. Copy everything inside ftplugin to your __vimfiles/ftplugin__ directory
 
 Usage
 ============
