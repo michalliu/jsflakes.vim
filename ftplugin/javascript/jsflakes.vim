@@ -1,6 +1,6 @@
 " Maintainer: yf liu <sophia.smth@gmail.com>
 " Requires: jsruntime http://www.vim.org/scripts/script.php?script_id=4050
-"           jsoncodecs
+"           jsoncodecs http://www.vim.org/scripts/script.php?script_id=4056
 " Description: javascript lint tool on the fly
 " Version: 1.0
 "
