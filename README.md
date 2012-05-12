@@ -12,6 +12,11 @@ Install
 
 3. Copy everything inside ftplugin to your __vimfiles/ftplugin__ directory
 
+4. Add following lines to your vimrc
+
+        filetype on
+        filetype plugin on
+
 Usage
 ============
 
