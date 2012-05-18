@@ -129,7 +129,7 @@ if !exists('*s:JSHintClear')
         endif
       endfor
       let s:matchedlines = {}
-	  call setloclist([])
+	  call setloclist(0, [])
     endfunction
 endif
 
@@ -221,7 +221,7 @@ if !exists('*s:JSHint')
 				endif
             endif
         endfor
-		call setloclist(error_list, 'a')
+		call setloclist(0, error_list, 'a')
     endfunction
 endif
 
