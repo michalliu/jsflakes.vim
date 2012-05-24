@@ -22,11 +22,9 @@ Usage
 
 For javascript file, jsflakes will automaticlly check errors in your code while you editing. 
 
-You can toggle the Automatic Lint behaviour by
+If you don't like this behaviour. You can toggle the **A**utomatic **L**int by `<Leader>al` , your vim's \<Leader\> is often `\`.
 
-    <Leader>al
-
-Your vim <Leader> is often `\`.
+The command to run jshint manaually is `:JSHint`.
 
 The current errors are added to the window's location list.
 You can aslo use [quickfix commands](http://vimcdoc.sourceforge.net/doc/quickfix.html), like
@@ -46,7 +44,7 @@ Jslint option file should be at __~/.jshintrc__ by default. your can change it t
 
     let g:jshint_rcfile = {PATH}
 
-Jsflakes aslo provide commands to run javascript directly inside VIM
+Jsflakes aslo provide commands to run javascript directly in VIM
 
 1. RunJS
 
