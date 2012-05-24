@@ -108,7 +108,7 @@ if !exists('*s:JSHintClear')
         endif
       endfor
       let s:matchedlines = {}
-	  call setloclist(0, [])
+      call setloclist(0, [])
     endfunction
 endif
 
@@ -152,26 +152,26 @@ if !exists('*s:JSHint')
         endif
 
 
-		" Store error list
-		let error_list = []
+        " Store error list
+        let error_list = []
 
-		let lintscript = s:jshintrc + getline(startline, endline)
-		let js = js . printf(s:jshint_run,b:json_dump_string(lintscript))
+        let lintscript = s:jshintrc + getline(startline, endline)
+        let js = js . printf(s:jshint_run,b:json_dump_string(lintscript))
 
         " printout scripts to be eval for debug
         " echo js
-		" call writefile([js],'debug.txt','b')
+        " call writefile([js],'debug.txt','b')
         let jshint_output = b:jsruntimeEvalScript(js)
         for error in split(jshint_output, "\n")
             " Match {line}:{char}:{message}
             let parts = matchlist(error, '\v(\d+):(\d+):([A-Z]+):(.*)')
             if !empty(parts)
                 let line = parts[1] + (startline - 1 - len(s:jshintrc)) " Get line relative to selection
-				let errorMessage = parts[4]
+                let errorMessage = parts[4]
 
-				if line < 1
-					echoerr 'jsflakes found error in your jshintrc <' . s:rc_file .'>, line ' . parts[1] . ', character ' . parts[2] . (errorMessage == '' ? '' : ': ' . errorMessage) . ' plz visit http://www.jshint.com/options/ for more info'
-				else
+                if line < 1
+                    echoerr 'jsflakes found error in your jshintrc <' . s:rc_file .'>, line ' . parts[1] . ', character ' . parts[2] . (errorMessage == '' ? '' : ': ' . errorMessage) . ' plz visit http://www.jshint.com/options/ for more info'
+                else
                     " Store the error for an error under the cursor
                     let matchDict = {}
                     let matchDict['lineNum'] = line
@@ -180,27 +180,27 @@ if !exists('*s:JSHint')
                         let s:matchedlines = {}
                     endif
                     let s:matchedlines[line] = matchDict
-					if parts[3] == 'ERROR'
-					    let errorType = 'E'
-					else
-						let errorType = 'W'
-					endif
+                    if parts[3] == 'ERROR'
+                        let errorType = 'E'
+                    else
+                        let errorType = 'W'
+                    endif
                     call matchadd('JSHintError', '\%' . line . 'l\S.*\(\S\|$\)')
 
-			    	" Store the error for local window
-			    	let err = {}
-			    	let err.bufnr = bufnr('%')
-			    	let err.filename = expand('%')
-			    	let err.lnum = line
-			    	let err.text = errorMessage
-			    	let err.type = errorType
+                    " Store the error for local window
+                    let err = {}
+                    let err.bufnr = bufnr('%')
+                    let err.filename = expand('%')
+                    let err.lnum = line
+                    let err.text = errorMessage
+                    let err.type = errorType
 
-					" Add line to error list
-					call add(error_list, err)
-				endif
+                    " Add line to error list
+                    call add(error_list, err)
+                endif
             endif
         endfor
-		call setloclist(0, error_list, 'a')
+        call setloclist(0, error_list, 'a')
     endfunction
 endif
 
@@ -216,7 +216,7 @@ try:
 except Exception,e:
     print "Hint: jsflakes.vim stops automaticlly, %s" % e
     vim.command("au! jsflakes")
-	
+    
 # start <script> end </script>
 if parser.lintableScripts:
     for start,end in parser.lintableScripts:
@@ -276,14 +276,14 @@ endif
 
 " toggle auto jslint
 if !exists('*s:toggleAutoLint')
-	function s:toggleAutoLint()
+    function s:toggleAutoLint()
 
-		if b:jsflakes_autolint
+        if b:jsflakes_autolint
 
-			call s:JSHintClear()
+            call s:JSHintClear()
 
             augroup jsflakes
-			au!
+            au!
             augroup END
 
             unmap <buffer><silent> dd
@@ -291,13 +291,13 @@ if !exists('*s:toggleAutoLint')
             unmap <buffer><silent> u
             unmap <buffer><silent> <C-R>
 
-			echo "jsflakes has disabled autolint"
+            echo "jsflakes has disabled autolint"
 
-			let b:jsflakes_autolint = 0
+            let b:jsflakes_autolint = 0
 
-		else
+        else
 
-			call s:JSHintUpdate()
+            call s:JSHintUpdate()
 
             " :help augroup
             " :help autocmd-buflocal
@@ -313,23 +313,23 @@ if !exists('*s:toggleAutoLint')
             augroup END
 
             " call jshint while content modified
-			" http://vim.wikia.com/wiki/Mapping_keys_in_Vim_-_Tutorial_(Part_1)
+            " http://vim.wikia.com/wiki/Mapping_keys_in_Vim_-_Tutorial_(Part_1)
             noremap <buffer><silent> dd dd:JSHintUpdate<CR>
             noremap <buffer><silent> dw dw:JSHintUpdate<CR>
             noremap <buffer><silent> u u:JSHintUpdate<CR>
             noremap <buffer><silent> <C-R> <C-R>:JSHintUpdate<CR>
 
-			let b:jsflakes_autolint = 1
+            let b:jsflakes_autolint = 1
 
-		endif
+        endif
 
-	endfunction
+    endfunction
 endif
 
 " ADD ABILITY TO RUN JAVASCRIPT INSIDE VIM
 " run js inside vim
 if !exists("*s:RunJavascript")
-	function s:RunJavascript(startline,...)
+    function s:RunJavascript(startline,...)
         " Detect range
         if a:startline < 1
             let startline=1
@@ -341,8 +341,8 @@ if !exists("*s:RunJavascript")
         else 
             let endline=a:1
         endif
-		call b:jsruntimeEvalScript(join(getline(startline, endline),"\n"))
-	endfunction
+        call b:jsruntimeEvalScript(join(getline(startline, endline),"\n"))
+    endfunction
 endif
 
 " addCommand to RunJS
@@ -358,8 +358,8 @@ endif
 " RunBrowser depend jsruntimeEvalScriptInBrowserContext 
 if exists("*b:jsruntimeEvalScriptInBrowserContext") && &ft == 'html'
 
-	if !exists("*s:RunJavascriptInBrowserContext")
-		function s:RunJavascriptInBrowserContext(startline,...)
+    if !exists("*s:RunJavascriptInBrowserContext")
+        function s:RunJavascriptInBrowserContext(startline,...)
             " Detect range
             if a:startline < 1
                 let startline=1
@@ -371,9 +371,9 @@ if exists("*b:jsruntimeEvalScriptInBrowserContext") && &ft == 'html'
             else 
                 let endline=a:1
             endif
-			call b:jsruntimeEvalScriptInBrowserContext(join(getline(startline, endline),"\n"))
-		endfunction
-	endif
+            call b:jsruntimeEvalScriptInBrowserContext(join(getline(startline, endline),"\n"))
+        endfunction
+    endif
 
     if !exists(":RunHtml")
         command RunHtml :call s:RunJavascriptInBrowserContext(1)
@@ -391,8 +391,8 @@ au BufUnload,BufHidden <buffer> call s:JSHintClear()
 
 " if autolint is configed to be enabled then enable it
 if b:jsflakes_autolint
-	" default internally disabled, make toggle function works as expected
-	let b:jsflakes_autolint = 0
+    " default internally disabled, make toggle function works as expected
+    let b:jsflakes_autolint = 0
     call s:toggleAutoLint()
 endif
 
