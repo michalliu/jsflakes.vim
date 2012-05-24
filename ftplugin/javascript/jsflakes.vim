@@ -220,6 +220,7 @@ try:
 except Exception,e:
     print "Hint: jsflakes.vim stops automaticlly, %s" % e
     # fuck my brain, why vim.eval always return a string type 
+	# we force to disable autolint if any error happened
     if int(vim.eval("b:jsflakes_autolint")):
         vim.command("call s:disableAutoLint()")
         vim.command("let b:jsflakes_autolint=0")
@@ -325,8 +326,6 @@ if !exists('*s:toggleAutoLint')
 
         else
 
-            " disableAutoLint will be called in this function if exception
-            " raised
             call s:JSHintUpdate()
             call s:enableAutoLint()
             let b:jsflakes_autolint = 1
