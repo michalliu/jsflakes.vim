@@ -403,3 +403,8 @@ nnoremap <silent> <leader>al :call <SID>toggleAutoLint()<cr>
 if !exists(":JSHintUpdate")
     command JSHintUpdate :call s:JSHintUpdate()
 endif
+
+" a shorter version
+if !exists(":JSHint")
+    command JSHint :call s:JSHintUpdate()
+endif
