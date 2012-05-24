@@ -4,7 +4,7 @@ jsflakes.vim
 A powerful vim plugin lint javascript code on the fly. [watch video](http://michalliu.github.com/jsflakes.vim)
 
 Install
-============
+-------
 
 1. You need install [jsruntime](https://github.com/michalliu/jsruntime.vim) first
 
@@ -18,9 +18,15 @@ Install
         filetype plugin on
 
 Usage
-============
+-----
 
 For javascript file, jsflakes will automaticlly check errors in your code while you editing. 
+
+You can toggle the Automatic Lint behaviour by
+
+    <Leader>al
+
+Your vim <Leader> is often `\`.
 
 The current errors are added to the window's location list.
 You can aslo use [quickfix commands](http://vimcdoc.sourceforge.net/doc/quickfix.html), like
@@ -29,7 +35,7 @@ You can aslo use [quickfix commands](http://vimcdoc.sourceforge.net/doc/quickfix
     :lopen open location window
     
 Advance Usage
-============
+-------------
 
 Jsflakes aslo support html file, add following to your __vimrc__
 
