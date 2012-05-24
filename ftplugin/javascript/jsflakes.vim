@@ -212,15 +212,17 @@ if !exists("*s:htmlJSHint")
 import vim
 parser = htmlParser()
 try:
-    parser.feed(vim.eval("join(getline(1,'$'),'\n')"))
+    parser.feed(unicode(vim.eval("join(getline(1,'$'),'\n')"),vim.eval("&encoding")))
+    # start <script> end </script>
+    if parser.lintableScripts:
+        for start,end in parser.lintableScripts:
+            vim.command('call s:JSHint(0,%d,%d)' % (start+1,end-1))
 except Exception,e:
     print "Hint: jsflakes.vim stops automaticlly, %s" % e
-    vim.command("au! jsflakes")
-    
-# start <script> end </script>
-if parser.lintableScripts:
-    for start,end in parser.lintableScripts:
-        vim.command('call s:JSHint(0,%d,%d)' % (start+1,end-1))
+    # fuck my brain, why vim.eval always return a string type 
+    if int(vim.eval("b:jsflakes_autolint")):
+        vim.command("call s:disableAutoLint()")
+        vim.command("let b:jsflakes_autolint=0")
 EOF
     endfunction
 endif
@@ -274,6 +276,42 @@ if !exists("*s:JSHintUpdate")
     endfunction
 endif
 
+if !exists('*s:enableAutoLint')
+    function s:enableAutoLint()
+        " :help augroup
+        " :help autocmd-buflocal
+        augroup jsflakes
+        au!
+        if &ft == 'html'
+            au BufEnter,InsertLeave,BufWritePost <buffer> call s:htmlJSHint()
+            au CursorMoved <buffer> call s:GetJSHintMessage()
+        else
+            au BufEnter,InsertLeave,BufWritePost <buffer> call s:JSHint(1)
+            au CursorMoved <buffer> call s:GetJSHintMessage()
+        endif
+        augroup END
+
+        " call jshint while content modified
+        " http://vim.wikia.com/wiki/Mapping_keys_in_Vim_-_Tutorial_(Part_1)
+        noremap <buffer><silent> dd dd:JSHintUpdate<CR>
+        noremap <buffer><silent> dw dw:JSHintUpdate<CR>
+        noremap <buffer><silent> u u:JSHintUpdate<CR>
+        noremap <buffer><silent> <C-R> <C-R>:JSHintUpdate<CR>
+    endfunction
+endif
+
+if !exists('*s:disableAutoLint')
+    function s:disableAutoLint()
+        augroup jsflakes
+        au!
+        augroup END
+
+        unmap <buffer><silent> dd
+        unmap <buffer><silent> dw
+        unmap <buffer><silent> u
+        unmap <buffer><silent> <C-R>
+    endfunction
+endif
 " toggle auto jslint
 if !exists('*s:toggleAutoLint')
     function s:toggleAutoLint()
@@ -281,44 +319,16 @@ if !exists('*s:toggleAutoLint')
         if b:jsflakes_autolint
 
             call s:JSHintClear()
-
-            augroup jsflakes
-            au!
-            augroup END
-
-            unmap <buffer><silent> dd
-            unmap <buffer><silent> dw
-            unmap <buffer><silent> u
-            unmap <buffer><silent> <C-R>
-
+            call s:disableAutoLint()
             echo "jsflakes has disabled autolint"
-
             let b:jsflakes_autolint = 0
 
         else
 
+            " disableAutoLint will be called in this function if exception
+            " raised
             call s:JSHintUpdate()
-
-            " :help augroup
-            " :help autocmd-buflocal
-            augroup jsflakes
-            au!
-            if &ft == 'html'
-                au BufEnter,InsertLeave,BufWritePost <buffer> call s:htmlJSHint()
-                au CursorMoved <buffer> call s:GetJSHintMessage()
-            else
-                au BufEnter,InsertLeave,BufWritePost <buffer> call s:JSHint(1)
-                au CursorMoved <buffer> call s:GetJSHintMessage()
-            endif
-            augroup END
-
-            " call jshint while content modified
-            " http://vim.wikia.com/wiki/Mapping_keys_in_Vim_-_Tutorial_(Part_1)
-            noremap <buffer><silent> dd dd:JSHintUpdate<CR>
-            noremap <buffer><silent> dw dw:JSHintUpdate<CR>
-            noremap <buffer><silent> u u:JSHintUpdate<CR>
-            noremap <buffer><silent> <C-R> <C-R>:JSHintUpdate<CR>
-
+            call s:enableAutoLint()
             let b:jsflakes_autolint = 1
 
         endif
@@ -391,9 +401,7 @@ au BufUnload,BufHidden <buffer> call s:JSHintClear()
 
 " if autolint is configed to be enabled then enable it
 if b:jsflakes_autolint
-    " default internally disabled, make toggle function works as expected
-    let b:jsflakes_autolint = 0
-    call s:toggleAutoLint()
+    call s:enableAutoLint()
 endif
 
 " toggle jshint
