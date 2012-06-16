@@ -22,7 +22,9 @@ Usage
 
 For javascript file, jsflakes will automaticlly check errors in your code while you editing. 
 
-If you don't like this behaviour. You can toggle the **A**utomatic **L**int by `<Leader>al` , your vim's \<Leader\> is often `\`.
+If you don't like this behaviour. You can toggle the **A**utomatic **L**int by `<Leader>al`, your vim's \<Leader\> is often `\`.
+
+You can aslo disable autolint by adding `let g:jsflakes_autolint = 0` to your vimrc.
 
 The command to run jshint manaually is `:JSHint`.
 
