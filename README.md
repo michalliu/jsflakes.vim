@@ -26,7 +26,7 @@ If you don't like this behaviour. You can toggle the **A**utomatic **L**int by `
 
 You can aslo disable autolint by adding `let g:jsflakes_autolint = 0` to your vimrc.
 
-The command to run jshint manaually is `:JSHint`.
+The command to run jshint manaually is `:JSLint`.
 
 The current errors are added to the window's location list.
 You can aslo use [quickfix commands](http://vimcdoc.sourceforge.net/doc/quickfix.html), like
