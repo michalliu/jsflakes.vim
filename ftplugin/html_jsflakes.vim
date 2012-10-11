@@ -1,8 +1,8 @@
 " Helper function for (x)html snippets
-if exists('s:did_html_jsflakes') || &cp
+if exists('b:did_html_jsflakes') || &cp
 	finish
 endif
-let s:did_html_jsflakes = 1
+let b:did_html_jsflakes = 1
 
 " Automatically activate jsflakes if in xhtml
 " Make sure the filetype is html or xhtml
