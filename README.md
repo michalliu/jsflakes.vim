@@ -1,7 +1,9 @@
 jsflakes.vim
 ============
 
-A powerful vim plugin lint javascript code on the fly. [watch video](http://michalliu.github.com/jsflakes.vim)
+A powerful vim plugin lint javascript code on the fly. It supports Windows/Linux/Mac up to Vim 8.0
+
+[watch video](http://michalliu.github.com/jsflakes.vim)
 
 Install
 -------
